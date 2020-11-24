@@ -1,0 +1,120 @@
+//Construction of Binary Tree
+
+import java.util.*;
+
+public class Main
+{
+    public static class Node
+    {
+        int data;
+        Node left;
+        Node right;
+        
+        public Node(int data, Node left, Node right)
+        {
+            this.data = data;
+            this.left = left;
+            this.right = right;
+        }
+    }
+    
+    public static class Pair
+    {
+        Node node;
+        int state;
+        
+        public Pair(Node node, int state)
+        {
+            this.node = node;
+            this.state = state;
+        }
+    }
+    
+    public static Node construct(Integer[] arr)
+    {
+        Node root = new Node(arr[0], null, null); //craeting and assigning values to root node
+        Stack<Pair> st = new Stack<>(); //craeting a stack o=of type Pair and giving space to stack in memeory
+        st.push(new Pair(root,1)); //push root node in the stack
+        
+        for(int i = 1; i < arr.length; i++)
+        {
+            Pair top = st.peek();
+            if(arr[i] == null)
+            {
+                top.state++;
+                if(top.state == 3)
+                {
+                    st.pop();
+                }
+            }
+            else
+            {
+                Node n = new Node(arr[i], null, null); //if arr[i] is not null then we will create a new node and assign the arr[i] value to the node
+                if(top.state == 1)
+                {
+                    top.state++;
+                    top.node.left = n;
+                    st.push(new Pair(n,1)); // at last push that pair with state 1 in the stack
+                }
+                else
+                {
+                    top.state++;
+                    top.node.right = n;
+                    st.pop();
+                    st.push(new Pair(n,1));
+                }
+                
+            }
+            
+        }
+        return root;
+        
+    }
+    
+    public static void display(Node node)
+    {
+        if(node == null)
+        {
+            return;
+        }
+        
+        String stp = "";
+        /*stp += node.left == null ? ". " : node.left.data;
+        stp += "<- " + node.data + "-> ";
+        stp += node.right == null ? " ." : node.right.data; */
+        
+        if(node.left == null)
+        {
+            stp = stp + ".";
+        }
+        else
+        {
+            stp = stp + node.left.data;
+        }
+        
+        stp += "<- " + node.data + "-> ";
+        
+        if(node.right == null)
+        {
+            stp = stp + ".";
+        }
+        else
+        {
+            stp = stp + node.right.data;
+        }
+        
+        
+        System.out.println(stp);
+        display(node.left);
+        display(node.right);
+    }
+    
+    public static void main(String[] args)
+    {
+        Integer[] arr = {10, 20, 40, null, null, 50, 80, null, null, 
+                         null, 30, 60, null, 90, null, null, 70, null, null};
+        Node root = construct(arr);
+        display(root);
+    }
+    
+}

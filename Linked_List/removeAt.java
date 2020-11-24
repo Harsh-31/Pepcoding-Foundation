@@ -1,0 +1,230 @@
+import java.io.*;
+import java.util.*;
+
+public class removeAt
+{
+    public static class Node
+    {
+        int data;
+        Node next;
+    }
+
+    public static class LinkedList
+    {
+        Node head;
+        Node tail;
+        int size;
+
+      public void addLast(int val)
+      {
+        //create a new node
+        Node n = new Node();
+
+        //set the value of node
+        n.data = val;
+
+        //set the next of node
+        if(this.size == 0)
+        {
+            this.head = n;
+            this.tail = n;
+        }
+        else
+        {
+            this.tail.next = n;
+            this.tail = n;
+        }
+        this.size++;
+      }
+
+      public int size()
+      {
+          return size;
+      }
+
+      public void addFirst(int val)
+      {
+        if(size == 0)
+        {
+            Node temp = new Node();
+            this.head = temp;
+            this.tail = temp;
+            temp.data = val;
+            temp.next = null;
+            this.size++;
+        }
+        else
+        {
+            Node temp = new Node();
+            temp.data = val;
+            temp.next = this.head;
+            this.head = temp;
+            this.size++;
+        }
+      } 
+
+      public void addAt(int val, int idx)
+      {
+        if(idx < 0 || idx > size)
+        {
+          System.out.println("Invalid arguments");
+        }
+      
+        else if(idx == 0)
+        {
+          addFirst(val);
+        }
+        else if(idx == size)
+        {
+          addLast(val);
+        }
+        else
+        {
+          // traversing over the list upto (idx - 1)
+          Node temp = this.head;
+          for(int i = 0; i < idx - 1; i++)
+          {
+              temp = temp.next;
+          }
+          // create a new node
+          Node n = new Node();
+          //make the connections
+          n.data = val; //set the data of the new node
+          n.next = temp.next; // next of the new node will store the next of temp
+          //update the temp.next
+          temp.next = n;
+          //update the size of the list
+          size++;
+        }
+      }
+
+       
+    public void removeFirst()
+    {
+      if(size == 0)
+      {
+          System.out.println("List is empty");
+      }
+      else if(size == 1)
+      {
+          this.head = null;
+          this.tail = null;
+          this.size--;
+      }
+      else
+      {
+          this.head = this.head.next;
+          this.size--;
+      }
+    }
+
+      public void removeLast()
+      {
+          if(this.size == 0)
+          {
+              System.out.println("List is empty");
+              return;
+          }
+          else if(this.size == 1)
+          {
+              this.head = null;
+              this.tail = null;
+              size--;
+          }
+          else
+          {
+              Node temp = this.head;
+              for(int i = 0; i < size - 2; i++)
+              {
+                  temp = temp.next;
+              }
+              this.tail = temp;
+              temp.next = null;
+              size--;
+          }
+      }
+
+      public void removeAt(int idx)
+      {
+          if(size == 0)
+          {
+              System.out.println("List is empty");
+              return;
+          }
+          else if(idx < 0 || idx >= size)
+          {
+              System.out.println("Invalid arguments");
+          }
+          else if(idx == 0)
+          {
+              removeFirst();
+          }
+          else if(idx == size - 1)
+          {
+              removeLast();
+          }
+          else
+          {
+              Node temp = this.head;
+              for(int i = 0; i < idx - 1; i++)
+              {
+                  temp = temp.next;
+              }
+              temp.next = temp.next.next;
+              size--;
+          }
+      }
+
+      public void display()
+      {
+          if(size == 0)
+          {
+             return;
+          }
+          else
+          {
+             Node temp = this.head;
+             while(temp != null)
+             {
+               System.out.print(temp.data + "->");
+               temp = temp.next;
+             }
+          }
+      }
+
+    }
+
+
+
+    public static void main(String[] args)
+    {
+        LinkedList list = new LinkedList();
+        list.addLast(10);
+        list.addLast(20);
+        list.addLast(30);
+        list.addLast(40);
+        list.display();
+        System.out.println();
+        System.out.println("Before adding the size of list is: " + list.size());
+        list.addFirst(50);
+        list.display();
+        System.out.println();
+        System.out.println("After adding the size of list is: " + list.size());
+        list.addAt(100,2);
+        list.display();
+        System.out.println();
+        System.out.println("After adding at index the size of list is: " + list.size());
+        list.removeFirst();
+        list.display();
+        System.out.println();
+        System.out.println("After removing first node the size of list is: " + list.size());
+        list.removeLast();
+        list.display();
+        System.out.println();
+        System.out.println("After removing last node the size of list is: " + list.size());
+        list.removeAt(2);
+        list.display();
+        System.out.println();
+        System.out.println("After removing particular index node the size of list is: " + list.size());
+    }
+}
